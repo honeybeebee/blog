@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<!-- scan为true，每隔30s扫描配置文件是否有改动 -->
+<configuration scan="true" scanPeriod="30 seconds">
+
+	<!-- 定义一个名为CONSOLE的appender,用于控制台输出 -->
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<!-- 格式化日志输出 -->
+		<encoder>
+			<pattern>%level %date{yyyy-MM-dd HH:mm:ss} [%thread]%caller{1}-%msg%n</pattern>
+		</encoder>
+	</appender>
+	
+	<!-- 定义一个名为FILE的appender,用于将日志记录到文件 -->
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<!-- 当前Log文件名 -->
+		<File>/var/log/blog/blog.log</File>
+		<!-- 基于时间的日志分包策略,当中又嵌套了文件大小策略。非当天的log自动备份，或者log文件大小达到5M也自动备份 -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>/var/log/blog/blog-%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>5MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%level %date{yyyy-MM-dd HH:mm:ss} [%thread]%n%caller{1}-%msg%n-%relative milliseconds elapsed%n</pattern>
+		</encoder>
+	</appender>
+	
+	 <!-- 异步输出 --> 
+	<appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+		<appender-ref ref="FILE" />
+		<queueSize>1000000</queueSize>
+		<discardingThreshold>20</discardingThreshold>
+		<includeCallerData>true</includeCallerData>
+	</appender>
+
+	<!-- 输出com.bee包下面的日志到控制台和文件 -->
+	<logger name="com.bee" level="DEBUG">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="ASYNC" />
+	</logger>
+
+	<!-- <root level="DEBUG">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="ASYNC" />
+	</root> -->
+</configuration>

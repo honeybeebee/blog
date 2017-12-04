@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bee.myApp.blog.dao.mapper.ArticleMapper">
+  <resultMap id="BaseResultMap" type="com.bee.myApp.blog.dao.entity.Article">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="categoryId" jdbcType="BIGINT" property="categoryId" />
+    <result column="articleTitle" jdbcType="VARCHAR" property="articleTitle" />
+    <result column="articleCover" jdbcType="VARCHAR" property="articleCover" />
+    <result column="articleLink" jdbcType="VARCHAR" property="articleLink" />
+    <result column="articleViewCount" jdbcType="INTEGER" property="articleViewCount" />
+    <result column="articleCommentCount" jdbcType="INTEGER" property="articleCommentCount" />
+    <result column="sortNo" jdbcType="BIGINT" property="sortNo" />
+    <result column="articleViewPassword" jdbcType="VARCHAR" property="articleViewPassword" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="articleSummary" jdbcType="LONGVARCHAR" property="articleSummary" />
+    <result column="articleContent" jdbcType="LONGVARCHAR" property="articleContent" />
+    <result column="articleTags" jdbcType="LONGVARCHAR" property="articleTags" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from blog_article
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.bee.myApp.blog.dao.entity.Article">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into blog_article (categoryId, articleTitle, articleCover, 
+      articleLink, articleViewCount, articleCommentCount, 
+      sortNo, articleViewPassword, createTime, 
+      updateTime, `status`, articleSummary, 
+      articleContent, articleTags)
+    values (#{categoryId,jdbcType=BIGINT}, #{articleTitle,jdbcType=VARCHAR}, #{articleCover,jdbcType=VARCHAR}, 
+      #{articleLink,jdbcType=VARCHAR}, #{articleViewCount,jdbcType=INTEGER}, #{articleCommentCount,jdbcType=INTEGER}, 
+      #{sortNo,jdbcType=BIGINT}, #{articleViewPassword,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{articleSummary,jdbcType=LONGVARCHAR}, 
+      #{articleContent,jdbcType=LONGVARCHAR}, #{articleTags,jdbcType=LONGVARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.bee.myApp.blog.dao.entity.Article">
+    update blog_article
+    set categoryId = #{categoryId,jdbcType=BIGINT},
+      articleTitle = #{articleTitle,jdbcType=VARCHAR},
+      articleCover = #{articleCover,jdbcType=VARCHAR},
+      articleLink = #{articleLink,jdbcType=VARCHAR},
+      articleViewCount = #{articleViewCount,jdbcType=INTEGER},
+      articleCommentCount = #{articleCommentCount,jdbcType=INTEGER},
+      sortNo = #{sortNo,jdbcType=BIGINT},
+      articleViewPassword = #{articleViewPassword,jdbcType=VARCHAR},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      `status` = #{status,jdbcType=INTEGER},
+      articleSummary = #{articleSummary,jdbcType=LONGVARCHAR},
+      articleContent = #{articleContent,jdbcType=LONGVARCHAR},
+      articleTags = #{articleTags,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select id, categoryId, articleTitle, articleCover, articleLink, articleViewCount, 
+    articleCommentCount, sortNo, articleViewPassword, createTime, updateTime, `status`, 
+    articleSummary, articleContent, articleTags
+    from blog_article
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, categoryId, articleTitle, articleCover, articleLink, articleViewCount, 
+    articleCommentCount, sortNo, articleViewPassword, createTime, updateTime, `status`, 
+    articleSummary, articleContent, articleTags
+    from blog_article
+  </select>
+</mapper>

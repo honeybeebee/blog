@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+	<properties resource="system.properties" />
+
+	<context id="blog" defaultModelType="flat" targetRuntime="MyBatis3Simple">
+		<!-- 当表名或者字段名为SQL关键字的时候，自动给表名或字段名添加分隔符 -->
+		<property name="autoDelimitKeywords" value="true"/>
+		<!-- 设置分隔符 -->
+		<property name="beginningDelimiter" value="`"/>
+		<property name="endingDelimiter" value="`"/>  
+
+		<!-- 为了防止生成的代码中有很多注释，比较难看，加入下面的配置控制 -->
+		<commentGenerator>
+			<!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+			<property name="suppressAllComments" value="true" />
+			<property name="suppressDate" value="true" />
+		</commentGenerator>
+		<!-- 注释控制完毕 -->
+
+		<!-- 数据库连接 -->
+		<jdbcConnection driverClass="${DATASOURCE_DRIVER_CLASS}" connectionURL="${DATASOURCE_JDBC_URL}" userId="${DATASOURCE_USER}" password="${DATASOURCE_PASSWORD}">
+		</jdbcConnection>
+
+		<!-- 默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer true，把JDBC DECIMAL 和 NUMERIC 类型解析为java.math.BigDecimal -->
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+
+		<!-- targetProject:自动生成代码的位置 -->
+		<javaModelGenerator targetPackage="com.bee.myApp.blog.dao.entity" targetProject="src/main/java">
+			<!-- enableSubPackages:是否让schema作为包的后缀 -->
+			<property name="enableSubPackages" value="true" />
+			<!-- 从数据库返回的值被清理前后的空格 -->
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+
+		<!-- sql mapper 映射配置文件 -->
+		<sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+
+		<!-- 在ibatis2 中是dao层，但在mybatis3中，其实就是mapper接口 -->
+		<javaClientGenerator type="XMLMAPPER" targetPackage="com.bee.myApp.blog.dao.mapper" targetProject="src/main/java">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+
+		<!-- 要对那些数据表进行生成操作，必须要有一个。schema：数据库名字，tableName:用于自动生成代码的数据库表；domainObjectName:对应于数据库表的javaBean类名 -->
+		<!-- <table schema="dongcai" tableName="grub_schedule" domainObjectName="GrubSchedule" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" 
+			enableSelectByExample="false" selectByExampleQueryId="false"> </table> -->
+		<!-- 表 blog_administrator -->
+		<table schema="blog" tableName="blog_administrator" domainObjectName="Administrator" >
+			<!-- 使用数据库列的名称做为属性名 -->
+			<property name="useActualColumnNames" value="true"/>
+			<!-- MBG生成resultMaps的时候会使用列的索引,而不是结果中列名的顺序 -->
+			<property name="useColumnIndexes" value="true"/>
+			<generatedKey column="id" sqlStatement="MySQL" identity="true" />
+		</table>
+		<table schema="blog" tableName="blog_article" domainObjectName="Article" >
+			<!-- 使用数据库列的名称做为属性名 -->
+			<property name="useActualColumnNames" value="true"/>
+			<!-- MBG生成resultMaps的时候会使用列的索引,而不是结果中列名的顺序 -->
+			<property name="useColumnIndexes" value="true"/>
+			<generatedKey column="id" sqlStatement="MySQL" identity="true" />
+		</table>
+		<table schema="blog" tableName="blog_article_category" domainObjectName="ArticleCategory" >
+			<!-- 使用数据库列的名称做为属性名 -->
+			<property name="useActualColumnNames" value="true"/>
+			<!-- MBG生成resultMaps的时候会使用列的索引,而不是结果中列名的顺序 -->
+			<property name="useColumnIndexes" value="true"/>
+			<generatedKey column="id" sqlStatement="MySQL" identity="true" />
+		</table>
+		<table schema="blog" tableName="blog_article_comment" domainObjectName="ArticleComment" >
+			<!-- 使用数据库列的名称做为属性名 -->
+			<property name="useActualColumnNames" value="true"/>
+			<!-- MBG生成resultMaps的时候会使用列的索引,而不是结果中列名的顺序 -->
+			<property name="useColumnIndexes" value="true"/>
+			<generatedKey column="id" sqlStatement="MySQL" identity="true" />
+		</table>
+
+
+
+	</context>
+</generatorConfiguration>

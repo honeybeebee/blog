@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bee.myApp.blog.dao.mapper.AdministratorMapper">
+  <resultMap id="BaseResultMap" type="com.bee.myApp.blog.dao.entity.Administrator">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="userName" jdbcType="VARCHAR" property="userName" />
+    <result column="userPassword" jdbcType="VARCHAR" property="userPassword" />
+    <result column="userAvatar" jdbcType="VARCHAR" property="userAvatar" />
+    <result column="userRole" jdbcType="VARCHAR" property="userRole" />
+    <result column="articleCount" jdbcType="INTEGER" property="articleCount" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from blog_administrator
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.bee.myApp.blog.dao.entity.Administrator">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into blog_administrator (userName, userPassword, userAvatar, 
+      userRole, articleCount)
+    values (#{userName,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR}, #{userAvatar,jdbcType=VARCHAR}, 
+      #{userRole,jdbcType=VARCHAR}, #{articleCount,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.bee.myApp.blog.dao.entity.Administrator">
+    update blog_administrator
+    set userName = #{userName,jdbcType=VARCHAR},
+      userPassword = #{userPassword,jdbcType=VARCHAR},
+      userAvatar = #{userAvatar,jdbcType=VARCHAR},
+      userRole = #{userRole,jdbcType=VARCHAR},
+      articleCount = #{articleCount,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select id, userName, userPassword, userAvatar, userRole, articleCount
+    from blog_administrator
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, userName, userPassword, userAvatar, userRole, articleCount
+    from blog_administrator
+  </select>
+</mapper>
